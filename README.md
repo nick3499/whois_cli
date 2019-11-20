@@ -25,11 +25,10 @@ ipwhois==1.1.0
 pkg-resources==0.0.0
 ```
 
-The [JSON encoder and decoder](https://docs.python.org/3/library/json.html) library will be imported, along with the [sys.argv](https://docs.python.org/3/library/sys.html#sys.argv) method.
+The [sys.argv](https://docs.python.org/3/library/sys.html#sys.argv) method will also be imported.
 
 ```python
 from ipwhois import IPWhois
-import json
 from sys import argv
 ```
 
