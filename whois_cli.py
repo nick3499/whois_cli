@@ -4,7 +4,6 @@
 # made available under MIT license (see LICENSE)
 
 from ipwhois import IPWhois
-import json
 from sys import argv
 
 w = IPWhois(argv[1]).lookup_rdap()
