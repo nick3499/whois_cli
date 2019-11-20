@@ -6,6 +6,8 @@ This repo is made available under MIT license (see `LICENSE`).
 
 [pip](https://pypi.org/project/pip/) was used for package management.
 
+![screen capture](screen_capture.png)
+
 ## requirements.txt
 
 **Note**:
