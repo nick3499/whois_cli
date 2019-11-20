@@ -92,50 +92,50 @@ obj_rmrks = {
     "links": "Links"
 }
 
-print(f'\033[0;31mASN\033[m =================================================================')
+print(f'\033[0;31mASN\033[m =================================================')
 
 for i in _asn:
-    if w[i] == None:
+    if w[i] is None:
         print(f'\033[0;36m{_asn[i]}\033[0m: n/a')
     else:
         print(f'\033[0;36m{_asn[i]}\033[0m: {w[i]}')
 
-print('\033[0;31mNetwork general\033[m ======================================================')
+print('\033[0;31mNetwork general\033[m ======================================')
 
 for i in net_gen:
-    if net[i] == None:
+    if net[i] is None:
         print(f'\033[0;36m{net_gen[i]}\033[0m: n/a')
     else:
         print(f'\033[0;36m{net_gen[i]}\033[0m: {net[i]}')  # Network general
 
-if net_stat == None:
+if net_stat is None:
     print(f'\033[0;36mStatus:\033[0m: n/a')
 else:
     print(f'\033[0;36mStatus\033[0m: {net_stat[0]}')  # Network status
 
-print('\033[0;31mNetwork remarks\033[m ======================================================')
+print('\033[0;31mNetwork remarks\033[m ======================================')
 
-if net_rmrks == None:
+if net_rmrks is None:
     print(f'n/a')
 else:
     for i in net_rmrks1:
-        if net_rmrks[0][i] == None:
+        if net_rmrks[0][i] is None:
             print(f'\033[0;36m{net_rmrks1[i]}\033[0m: n/a')
         else:
             print(f'\033[0;36m{net_rmrks1[i]}\033[0m: {net_rmrks[0][i]}')
             # Network remarks
 
-print('\033[0;31mNetwork links\033[m ========================================================')
+print('\033[0;31mNetwork links\033[m ========================================')
 
 for i in net["links"]:
     print(i)  # Network links
 
-print('\033[0;31mNetwork notices\033[m ======================================================')
+print('\033[0;31mNetwork notices\033[m ======================================')
 
 n = 0
 for i in net_notc1:
     for j in i:
-        if net_notc1[n][j] == None:
+        if net_notc1[n][j] is None:
             print(f'\033[0;36m{net_notc[j]}\033[0m: n/a')
         elif type(net_notc1[n][j]) == list:
             print(f'\033[0;36m{net_notc[j]}\033[0m: \
@@ -145,43 +145,43 @@ for i in net_notc1:
                 {net_notc1[n][j]}')  # Network notices
     n += 1
 
-print('\033[0;31mNetwork events\033[m =======================================================')
+print('\033[0;31mNetwork events\033[m =======================================')
 
 n = 0
 for i in net_evnts1:
     for j in i:
-        if net_evnts1[n][j] == None:
+        if net_evnts1[n][j] is None:
             print(f'\033[0;36m{net_evnts[j]}\033[0m: n/a')
         else:
             print(f'\033[0;36m{net_evnts[j]}\033[0m: \
             {net_evnts1[n][j]}')  # Network events
     n += 1
 
-print('\033[0;31mNIR \033[m =================================================================')
+print('\033[0;31mNIR \033[m =================================================')
 
-_nir = f'\033[0;36mNIR\033[0m: n/a' if w["nir"] == None else f'\033[0;36mNIR\033[0m: {w["nir"]}'
+_nir = f'\033[0;36mNIR\033[0m: n/a' if w["nir"] is None else f'\033[0;36mNIR\033[0m: {w["nir"]}'
 print(_nir)
 
-print('\033[0;31mObjects general\033[m ======================================================')
+print('\033[0;31mObjects general\033[m ======================================')
 
 for i in objs:
     for j in obj_misc_keys:
-        if objs[i][j] == None:
+        if objs[i][j] is None:
             print(f'\033[0;36m{i} {obj_misc[j]}\033[0m: n/a')
         else:
             print(f'\033[0;36m{i} {obj_misc[j]}\033[0m: {objs[i][j]}')
 
-print('\033[0;31mObjects contact\033[m ======================================================')
+print('\033[0;31mObjects contact\033[m ======================================')
 
 for i in objs:
-    if objs[i]["contact"] == None:
+    if objs[i]["contact"] is None:
         print(f'\033[0;36mContact {i}\033[0m: n/a')
     else:
         for j in obj_contact1:
-            if objs[i]["contact"][j] == None:
+            if objs[i]["contact"][j] is None:
                 print(f'\033[0;36m{obj_contact[j]}\033[0m: n/a')
             elif isinstance(objs[i]["contact"][j], list):
-                if objs[i]["contact"][j][0]["type"] == None:
+                if objs[i]["contact"][j][0]["type"] is None:
                     print(f'\033[0;36m{obj_contact[j]} type\033[0m: n/a')
                 elif isinstance(objs[i]["contact"][j][0]["type"], list):
                     print(f'\033[0;36m{obj_contact[j]} type\033[0m:')
@@ -196,31 +196,32 @@ for i in objs:
                 print(f'\033[0;36m{obj_contact[j]}\033[0m: \
                     {objs[i]["contact"][j]}')  # Objects contact
 
-print('\033[0;31mObjects contact address\033[m ==============================================')
+print('\033[0;31mObjects contact address\033[m ==============================')
 
 for i in objs:
     try:
         for j in objs[i]["contact"]["address"][0].keys():
-            if objs[i]["contact"]["address"][0][j] == None:
+            if objs[i]["contact"]["address"][0][j] is None:
                 print(f'\033[0;36m{obj_add[j]} {i}\033[0m: n/a')
             else:
-                print(f'\033[0;36m{obj_add[j]} {i}\033[0m: {objs[i]["contact"]["address"][0][j]}')
+                print(f'\033[0;36m{obj_add[j]} {i}\033[0m: \
+                    {objs[i]["contact"]["address"][0][j]}')
     except TypeError:
         print(f'\033[0;36mContact address {i}\033[0m: n/a')
 
-print('\033[0;31mObjects entities\033[m =====================================================')
+print('\033[0;31mObjects entities\033[m =====================================')
 
 for i in objs:
-    if objs[i]["entities"] == None:
+    if objs[i]["entities"] is None:
         print(f'\033[0;36m{i} entity\033[0m: n/a')
     else:
         for j in objs[i]["entities"]:
             print(j)  # Object entities
 
-print('\033[0;31mObjects events\033[m =======================================================')
+print('\033[0;31mObjects events\033[m =======================================')
 
 for i in objs1:
-    if objs[i]["events"] == None:
+    if objs[i]["events"] is None:
         print(f'\033[0;36m{i} event:\033[0m: n/a')
     else:
         c = 0
@@ -230,19 +231,19 @@ for i in objs1:
                     {objs[i]["events"][c][k]}')  # Objects events
             c += 1
 
-print('\033[0;31mObjects links\033[m ========================================================')
+print('\033[0;31mObjects links\033[m ========================================')
 
 for i in objs:
-    if objs[i]["links"] == None:
+    if objs[i]["links"] is None:
         print(f'\033[0;36m{i} links\033[0m: n/a')
     else:
         for j in objs[i]["links"]:
             print(j)  # Objects links
 
-print('\033[0;31mObjects remarks\033[m ======================================================')
+print('\033[0;31mObjects remarks\033[m ======================================')
 
 for i in objs:
-    if objs[i]["remarks"] == None:
+    if objs[i]["remarks"] is None:
         print(f'\033[0;36m{i} remarks\033[0m: n/a')
     else:
         obj_rmrks1 = list(objs[i]["remarks"][0].keys())
@@ -253,27 +254,27 @@ for i in objs:
                     {objs[i]["remarks"][c][obj_rmrks1[k]]}')  # Objects remarks
             c += 1
 
-print('\033[0;31mObjects roles\033[m ========================================================')
+print('\033[0;31mObjects roles\033[m ========================================')
 
 for i in objs:
-    if objs[i]["roles"] == None:
+    if objs[i]["roles"] is None:
         print(f'\033[0;36m{i} roles\033[0m: n/a')
     else:
         for j in objs[i]["roles"]:
-            print(f'\033[0;36m{i} roles\033[0m: {j}')  #  Objects roles
+            print(f'\033[0;36m{i} roles\033[0m: {j}')  # Objects roles
 
-print('\033[0;31mObjects status\033[m =======================================================')
+print('\033[0;31mObjects status\033[m =======================================')
 
 for i in objs:
-    if objs[i]["status"] == None:
+    if objs[i]["status"] is None:
         print(f'\033[0;36m{i} status\033[0m: n/a')
     else:
         for j in objs[i]["status"]:
             print(f'\033[0;36m{i} status\033[0m: {j}')  # Objects status
 
-print('\033[0;31mRaw\033[m ==================================================================')
+print('\033[0;31mRaw\033[m ==================================================')
 
-if w["raw"] == None:
+if w["raw"] is None:
     print(f'n/a')
 else:
     print(f'{w["raw"]}')  # Raw
