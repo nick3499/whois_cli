@@ -22,7 +22,6 @@ To install required dependencies:
 ```python
 dnspython==1.16.0
 ipwhois==1.1.0
-pkg-resources==0.0.0
 ```
 
 The [sys.argv](https://docs.python.org/3/library/sys.html#sys.argv) method will also be imported.
@@ -53,7 +52,7 @@ from sys import argv
 
 ```python
 _asn = {
-    "asn": "Number",
+    "asn": "ASN",
     "asn_cidr": "CIDR",
     "asn_country_code": "Country code",
     "asn_date": "Date",
@@ -65,11 +64,27 @@ _asn = {
 The dictionary above contains ASN keys with their associated values for capitalized string syntax.
 
 ```python
-for i in _asn:
-    if w[i] == None:
-        print(f'\033[0;36m{_asn[i]}\033[0m: n/a')
-    else:
-        print(f'\033[0;36m{_asn[i]}\033[0m: {w[i]}')
+try:
+    for k, v in net_remarks.items():
+        print(f'{cyan}{v}{end}: {_net["remarks"][0][k]}')
+except TypeError:
+    print(f'{cyan}{v}{end}: n/a')
 ```
 
-In the `for` loop above, `if` an ASN key returns `None` then some form of `n/a` string will be returned, `else` the ASN key's value will be returned.
+In the `for` loop above, a try/except block was used to handle `None` returns. `n/a` strings replace `None` returns.
+
+## Color Formatting
+
+```python
+red = "\x1b[0;31m"
+cyan = "\x1b[0;36m"
+end = "\x1b[0m"
+```
+
+Parts of color formatting syntax for text display in the terminal emulator were stored in variables (see above).
+
+```python
+print(f'{cyan}{v}{end}: {_net["remarks"][0][k]}')
+```
+
+`{cyan}{v}{end}` demonstrates the use of f-string expressions to format text colors.
