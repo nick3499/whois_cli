@@ -7,13 +7,15 @@ from ipwhois import IPWhois
 from sys import argv
 
 w = IPWhois(argv[1]).lookup_rdap()
-objs = w["objects"]
-objs1 = list(objs.keys())
-net = w["network"]
+_net = w["network"]
+_obj = w["objects"]
+red = "\x1b[0;31m"
+cyan = "\x1b[0;36m"
+end = "\x1b[0m"
 
 # ASN
 _asn = {
-    "asn": "Number",
+    "asn": "ASN",
     "asn_cidr": "CIDR",
     "asn_country_code": "Country code",
     "asn_date": "Date",
@@ -21,7 +23,7 @@ _asn = {
     "asn_registry": "Registry"
 }
 # Network general
-net_gen = {
+net_misc = {
     "name": "Name",
     "cidr": "CIDR",
     "start_address": "Start address",
@@ -33,248 +35,215 @@ net_gen = {
     "type": "Type",
     "raw": "Raw"
 }
-# Network status
-net_stat = net["status"]
 # Network remarks
-net_rmrks = net["remarks"]
-net_rmrks1 = {
+net_remarks = {
     "title": "Title",
     "description": "Description",
     "links": "Links"
 }
 # Network notices
-net_notc = {
+net_notices = {
     "description": "Description",
     "links": "Links",
     "title": "Title"
 }
-net_notc1 = net["notices"]
 # Network events
-net_evnts = {
+net_events = {
     "action": "Action",
     "actor": "Actor",
     "timestamp": "Timestamp"
 }
-net_evnts1 = net["events"]
 # Objects general
 obj_misc = {
-    'events_actor': 'Events actor',
-    'handle': 'Handle',
-    'notices': 'Notices',
-    'raw': 'Raw'
+    'events_actor': 'events actor',
+    'handle': 'handle',
+    'notices': 'notices',
+    'raw': 'raw'
 }
-obj_misc_keys = list(obj_misc.keys())
 # Objects contact
 obj_contact = {
-    "email": "Email",
-    "kind": "Kind",
-    "name": "Name",
-    "phone": "Phone",
-    "role": "Role",
-    "title": "Title"
+    "email": "email",
+    "kind": "kind",
+    "name": "name",
+    "phone": "phone",
+    "role": "role",
+    "title": "title"
 }
-obj_contact1 = list(obj_contact.keys())
 # Objects address
 obj_add = {
-    'type': 'Type',
-    'value': 'Value'
+    'type': 'type',
+    'value': 'value'
 }
 # Objects events
-obj_evnt = {
-    "action": "Action",
-    "timestamp": "Timestamp",
-    "actor": "Actor"
+obj_events = {
+    "action": "action",
+    "timestamp": "timestamp",
+    "actor": "actor"
 }
 # Objects remarks
-obj_rmrks = {
-    "title": "Title",
-    "description": "Description",
-    "links": "Links"
+obj_remarks = {
+    "title": "title",
+    "description": "description",
+    "links": "links"
 }
 
-print(f'\033[0;31mASN\033[m =================================================')
+print(f'================ {red}ASN{end} ======================================')
 
-for i in _asn:
-    if w[i] is None:
-        print(f'\033[0;36m{_asn[i]}\033[0m: n/a')
-    else:
-        print(f'\033[0;36m{_asn[i]}\033[0m: {w[i]}')
+try:
+    for k, v in _asn.items():
+        print(f'{cyan}{v}{end}: {w[k]}')
+except TypeError:
+    print(f'{cyan}{v}{end}: n/a')
 
-print('\033[0;31mNetwork general\033[m ======================================')
+print(f'================ {red}Network misc{end} =============================')
 
-for i in net_gen:
-    if net[i] is None:
-        print(f'\033[0;36m{net_gen[i]}\033[0m: n/a')
-    else:
-        print(f'\033[0;36m{net_gen[i]}\033[0m: {net[i]}')  # Network general
+try:
+    for k, v in net_misc.items():
+        print(f'{cyan}{v}{end}: {_net[k]}')
+except TypeError:
+    print(f'{cyan}{v}{end}: n/a')
 
-if net_stat is None:
-    print(f'\033[0;36mStatus:\033[0m: n/a')
-else:
-    print(f'\033[0;36mStatus\033[0m: {net_stat[0]}')  # Network status
+try:
+    print(f'{cyan}Status{end}: {_net["status"][0]}')
+except TypeError:
+    print(f'{cyan}Status{end}: n/a')
 
-print('\033[0;31mNetwork remarks\033[m ======================================')
+print(f'================ {red}Network remarks{end} ==========================')
 
-if net_rmrks is None:
-    print(f'n/a')
-else:
-    for i in net_rmrks1:
-        if net_rmrks[0][i] is None:
-            print(f'\033[0;36m{net_rmrks1[i]}\033[0m: n/a')
-        else:
-            print(f'\033[0;36m{net_rmrks1[i]}\033[0m: {net_rmrks[0][i]}')
-            # Network remarks
+try:
+    for k, v in net_remarks.items():
+        print(f'{cyan}{v}{end}: {_net["remarks"][0][k]}')
+except TypeError:
+    print(f'{cyan}{v}{end}: n/a')
 
-print('\033[0;31mNetwork links\033[m ========================================')
+print(f'================ {red}Network links{end} ============================')
 
-for i in net["links"]:
-    print(i)  # Network links
+[print(i) for i in _net["links"]]
 
-print('\033[0;31mNetwork notices\033[m ======================================')
+print(f'================ {red}Network notices{end} ==========================')
 
 n = 0
-for i in net_notc1:
-    for j in i:
-        if net_notc1[n][j] is None:
-            print(f'\033[0;36m{net_notc[j]}\033[0m: n/a')
-        elif type(net_notc1[n][j]) == list:
-            print(f'\033[0;36m{net_notc[j]}\033[0m: \
-                {net_notc1[n][j][0]}')
-        else:
-            print(f'\033[0;36m{net_notc[j]}\033[0m: \
-                {net_notc1[n][j]}')  # Network notices
+for k, v in net_notices.items():
+    if isinstance(_net["notices"][n]["links"], list):
+        print(f'{cyan}{v}{end}: {_net["notices"][n]["links"][0]}')
+    else:
+        print(f'{cyan}{v}{end}: {_net["notices"][n][k]}' if True else "n/a")
     n += 1
 
-print('\033[0;31mNetwork events\033[m =======================================')
+print(f'================ {red}Network events{end} ===========================')
 
 n = 0
-for i in net_evnts1:
-    for j in i:
-        if net_evnts1[n][j] is None:
-            print(f'\033[0;36m{net_evnts[j]}\033[0m: n/a')
-        else:
-            print(f'\033[0;36m{net_evnts[j]}\033[0m: \
-            {net_evnts1[n][j]}')  # Network events
-    n += 1
-
-print('\033[0;31mNIR \033[m =================================================')
-
-_nir = f'\033[0;36mNIR\033[0m: n/a' if w["nir"] is None else f'\033[0;36mNIR\033[0m: {w["nir"]}'
-print(_nir)
-
-print('\033[0;31mObjects general\033[m ======================================')
-
-for i in objs:
-    for j in obj_misc_keys:
-        if objs[i][j] is None:
-            print(f'\033[0;36m{i} {obj_misc[j]}\033[0m: n/a')
-        else:
-            print(f'\033[0;36m{i} {obj_misc[j]}\033[0m: {objs[i][j]}')
-
-print('\033[0;31mObjects contact\033[m ======================================')
-
-for i in objs:
-    if objs[i]["contact"] is None:
-        print(f'\033[0;36mContact {i}\033[0m: n/a')
-    else:
-        for j in obj_contact1:
-            if objs[i]["contact"][j] is None:
-                print(f'\033[0;36m{obj_contact[j]}\033[0m: n/a')
-            elif isinstance(objs[i]["contact"][j], list):
-                if objs[i]["contact"][j][0]["type"] is None:
-                    print(f'\033[0;36m{obj_contact[j]} type\033[0m: n/a')
-                elif isinstance(objs[i]["contact"][j][0]["type"], list):
-                    print(f'\033[0;36m{obj_contact[j]} type\033[0m:')
-                    for k in objs[i]["contact"][j][0]["type"]:
-                        print(f'{k}')
-                else:
-                    print(f'\033[0;36m{obj_contact[j]} type\033[0m: \
-                        {objs[i]["contact"][j][0]["type"]}')
-                print(f'\033[0;36m{obj_contact[j]} value\033[0m: \
-                    {objs[i]["contact"][j][0]["value"]}')
-            else:
-                print(f'\033[0;36m{obj_contact[j]}\033[0m: \
-                    {objs[i]["contact"][j]}')  # Objects contact
-
-print('\033[0;31mObjects contact address\033[m ==============================')
-
-for i in objs:
+for i in _net["events"]:
     try:
-        for j in objs[i]["contact"]["address"][0].keys():
-            if objs[i]["contact"]["address"][0][j] is None:
-                print(f'\033[0;36m{obj_add[j]} {i}\033[0m: n/a')
-            else:
-                print(f'\033[0;36m{obj_add[j]} {i}\033[0m: \
-                    {objs[i]["contact"]["address"][0][j]}')
+        for k, v in net_events.items():
+            print(f'{cyan}{v}{end}: {_net["events"][n][k]}')
     except TypeError:
-        print(f'\033[0;36mContact address {i}\033[0m: n/a')
+        print(f'{cyan}{v}{end}: n/a')
+    n += 1
 
-print('\033[0;31mObjects entities\033[m =====================================')
+print(f'================ {red}NIR{end} ======================================')
 
-for i in objs:
-    if objs[i]["entities"] is None:
-        print(f'\033[0;36m{i} entity\033[0m: n/a')
+print(f'{w["nir"] or "n/a"}')
+
+print(f'================ {red}Objects misc{end} =============================')
+
+for i in _obj:
+    try:
+        for k, v in obj_misc.items():
+            print(f'{cyan}{i} {v}{end}: {_obj[i][k]}')
+    except TypeError:
+        print(f'{cyan}{i} {v}{end}: n/a')
+
+print(f'================ {red}Objects contact{end} ==========================')
+
+for i in _obj:
+    if _obj[i]["contact"] is None:
+        print(f'{cyan}{i}{end}: n/a')
     else:
-        for j in objs[i]["entities"]:
-            print(j)  # Object entities
+        for k, v in obj_contact.items():
+            if _obj[i]["contact"][k] is None:
+                print(f'{cyan}{i} {v}{end}: n/a')
+            elif isinstance(_obj[i]["contact"][k], list):
+                if _obj[i]["contact"][k][0]["type"] is None:
+                    print(f'{cyan}{i} {v} type{end}: n/a')
+                elif isinstance(_obj[i]["contact"][k][0]["type"], list):
+                    print(f'{cyan}{i} {v} type{end}:')
+                    for m in _obj[i]["contact"][k][0]["type"]:
+                        print(f'{m}')
+                else:
+                    print(f'{cyan}{i} {v} type{end}: \
+{_obj[i]["contact"][k][0]["type"]}')
+                print(f'{cyan}{i} {v} value{end}: \
+{_obj[i]["contact"][k][0]["value"]}')
+            else:
+                print(f'{cyan}{i} {v}{end}: {_obj[i]["contact"][k]}')
 
-print('\033[0;31mObjects events\033[m =======================================')
+print(f'================ {red}Objects contact address{end} ==================')
 
-for i in objs1:
-    if objs[i]["events"] is None:
-        print(f'\033[0;36m{i} event:\033[0m: n/a')
-    else:
-        c = 0
-        for j in objs[i]["events"]:
-            for k in j:
-                print(f'\033[0;36m{obj_evnt[k]}\033[0m: \
-                    {objs[i]["events"][c][k]}')  # Objects events
-            c += 1
+for i in _obj:
+    try:
+        for k, v in obj_add.items():
+            print(f'{cyan}{i} {v}{end}: {_obj[i]["contact"]["address"][0][k]}')
+    except TypeError:
+        print(f'{cyan}{i} {v}{end}: n/a')
 
-print('\033[0;31mObjects links\033[m ========================================')
+print(f'================ {red}Objects entities{end} =========================')
 
-for i in objs:
-    if objs[i]["links"] is None:
-        print(f'\033[0;36m{i} links\033[0m: n/a')
-    else:
-        for j in objs[i]["links"]:
-            print(j)  # Objects links
+for i in _obj:
+    try:
+        for j in _obj[i]["entities"]:
+            print(f'{j}')
+    except TypeError:
+        print(f'{cyan}{i}{end}: n/a')
 
-print('\033[0;31mObjects remarks\033[m ======================================')
+print(f'================ {red}Objects events{end} ===========================')
 
-for i in objs:
-    if objs[i]["remarks"] is None:
-        print(f'\033[0;36m{i} remarks\033[0m: n/a')
-    else:
-        obj_rmrks1 = list(objs[i]["remarks"][0].keys())
-        c = 0
-        for j in objs[i]["remarks"]:
-            for k in range(len(obj_rmrks1)):
-                print(f'\033[0;36m{i} {obj_rmrks[obj_rmrks1[k]]}\033[0m: \
-                    {objs[i]["remarks"][c][obj_rmrks1[k]]}')  # Objects remarks
-            c += 1
+for i in _obj:
+    try:
+        for k, v in obj_events.items():
+            print(f'{cyan}{i} {v}{end}: {_obj[i]["events"][0][k]}')
+    except TypeError:
+        print(f'{cyan}{i}{end}: n/a')  # ref. 45.32.195.192
 
-print('\033[0;31mObjects roles\033[m ========================================')
+print(f'================ {red}Objects links{end} ============================')
 
-for i in objs:
-    if objs[i]["roles"] is None:
-        print(f'\033[0;36m{i} roles\033[0m: n/a')
-    else:
-        for j in objs[i]["roles"]:
-            print(f'\033[0;36m{i} roles\033[0m: {j}')  # Objects roles
+for i in _obj:
+    try:
+        for j in _obj[i]["links"]:
+            print(f'{j}')
+    except TypeError:
+        print(f'{cyan}{i}{end}: n/a')
 
-print('\033[0;31mObjects status\033[m =======================================')
+print(f'================ {red}Objects remarks{end} ==========================')
 
-for i in objs:
-    if objs[i]["status"] is None:
-        print(f'\033[0;36m{i} status\033[0m: n/a')
-    else:
-        for j in objs[i]["status"]:
-            print(f'\033[0;36m{i} status\033[0m: {j}')  # Objects status
+for i in _obj:
+    n = 0
+    try:
+        for j in _obj[i]["remarks"]:
+            for k, v in obj_remarks.items():
+                    print(f'{cyan}{i} {v}{end}: {_obj[i]["remarks"][n][k]}')
+    except TypeError:
+        print(f'{cyan}{i}{end}: n/a')
+        n += 1  # ref. 72.21.91.29
 
-print('\033[0;31mRaw\033[m ==================================================')
+print(f'================ {red}Objects roles{end} ============================')
 
-if w["raw"] is None:
-    print(f'n/a')
-else:
-    print(f'{w["raw"]}')  # Raw
+for i in _obj:
+    try:
+        for j in _obj[i]["roles"]:
+            print(f'{cyan}{i}{end}: {j}')
+    except TypeError:
+        print(f'{cyan}{i}{end}: n/a')
+
+print(f'================ {red}Objects status{end} ===========================')
+
+for i in _obj:
+    try:
+        for j in _obj[i]["status"]:
+            print(f'{cyan}{i}{end}: {j}')
+    except TypeError:
+        print(f'{cyan}{i}{end}: n/a')
+
+print(f'================ {red}Raw{end} ======================================')
+
+print(f'{w["raw"] or "n/a"}')
