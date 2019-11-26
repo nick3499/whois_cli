@@ -44,11 +44,8 @@ from sys import argv
 `IPWhois.lookup_rdap()`
 : became the recommended lookup method, since [RDAP](https://www.arin.net/resources/registry/whois/rdap/) provides more efficient, higher quality whois data.
 
-`objs = w["objects"]`
+`_objs = w["objects"]`
 : indicates that the `objects` dictionary within the whois data will be stored in the `objs` variable.
-
-`objs1 = list(objs.keys())`
-: indicates that only the `keys` from the `objs` variable will be listed in the `objs1` variable.
 
 ```python
 _asn = {
