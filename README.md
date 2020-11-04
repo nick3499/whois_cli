@@ -85,3 +85,5 @@ print(f'{cyan}{v}{end}: {_net["remarks"][0][k]}')
 ```
 
 `{cyan}{v}{end}` demonstrates the use of f-string expressions to format text colors.
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R6R72LISM)
